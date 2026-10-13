@@ -1,0 +1,12 @@
+# Службові файли редактора
+.vscode/
+.idea/
+
+# Системні файли ОС
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Тимчасові файли
+*.log
+*.tmp
