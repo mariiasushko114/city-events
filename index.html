@@ -7,15 +7,86 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Шапка з назвою застосунку та навігацією -->
+    <!-- Шапка: єдиний h1 на сторінці + навігація якорями -->
+    <header>
+        <h1>Афіша подій міста</h1>
+        <nav>
+            <a href="#events">Події</a>
+            <a href="#selected-event">Обрана подія</a>
+        </nav>
+    </header>
 
-    <!-- Блок фільтра подій за датою та категорією -->
+    <main>
+        <!-- Тематичний розділ: фільтр (не повторюється, тому section) -->
+        <section id="filter">
+            <h2>Фільтр за датою та категорією</h2>
+            <form>
+                <label for="filter-date">Дата</label>
+                <input type="date" id="filter-date" name="date">
 
-    <!-- Список подій (картки) -->
+                <label for="filter-category">Категорія</label>
+                <select id="filter-category" name="category">
+                    <option value="all">Усі події</option>
+                    <option value="concert">Концерти</option>
+                    <option value="theatre">Вистави</option>
+                    <option value="exhibition">Виставки</option>
+                    <option value="festival">Фестивалі</option>
+                </select>
 
-    <!-- Блок деталей обраної події -->
+                <button type="submit">Показати</button>
+            </form>
+        </section>
 
-    <!-- Підвал -->
+        <!-- Список подій: кожна подія - самодостатня одиниця вмісту, тому article -->
+        <section id="events">
+            <h2>Події</h2>
+
+            <article>
+                <img src="assets/img/concert.svg" alt="Ілюстрація до концерту: музичні ноти" width="320" height="180">
+                <h3>Вечір джазу просто неба</h3>
+                <p>Категорія: Концерт</p>
+                <p>Дата: <time datetime="2026-10-24T19:00">24 жовтня, 19:00</time></p>
+                <p>Живий джаз від міських музичних гуртів на відкритому майданчику.</p>
+            </article>
+
+            <article>
+                <img src="assets/img/theatre.svg" alt="Ілюстрація до вистави: театральні маски" width="320" height="180">
+                <h3>Вистава «Лісова пісня»</h3>
+                <p>Категорія: Вистава</p>
+                <p>Дата: <time datetime="2026-10-31T18:30">31 жовтня, 18:30</time></p>
+                <p>Сучасне прочитання драми-феєрії Лесі Українки.</p>
+            </article>
+
+            <article>
+                <img src="assets/img/exhibition.svg" alt="Ілюстрація до виставки: картина в рамі" width="320" height="180">
+                <h3>Фотовиставка «Місто восени»</h3>
+                <p>Категорія: Виставка</p>
+                <p>Дата: <time datetime="2026-11-05">5–20 листопада</time></p>
+                <p>Роботи місцевих фотографів про осінні вулиці та двори.</p>
+            </article>
+
+            <article>
+                <img src="assets/img/festival.svg" alt="Ілюстрація до фестивалю: святкові прапорці" width="320" height="180">
+                <h3>Ярмарок ремесел</h3>
+                <p>Категорія: Фестиваль</p>
+                <p>Дата: <time datetime="2026-11-14T11:00">14 листопада, 11:00</time></p>
+                <p>Майстер-класи, вироби ремісників і вулична музика.</p>
+            </article>
+        </section>
+    </main>
+
+    <!-- Другорядний вміст поза основним потоком main -->
+    <aside id="selected-event">
+        <h2>Деталі обраної події</h2>
+        <p>Оберіть подію зі списку, щоб переглянути опис, місце проведення та час.</p>
+    </aside>
+
+    <footer>
+        <address>
+            Контакти організаторів: <a href="mailto:events@example.com">events@example.com</a>
+        </address>
+        <p>Навчальний проєкт «Афіша подій міста», 2026</p>
+    </footer>
 
     <script src="js/app.js"></script>
 </body>
