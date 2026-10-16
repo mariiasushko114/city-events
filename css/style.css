@@ -1,1 +1,176 @@
-/* Стилі застосунку «Афіша подій міста» (будуть додані в наступних практикумах) */
+/* =============================================================
+   Палітра: контрастна - темний header, світлий «афішний» акцент
+     #1c1f26 - темний фон header і footer
+     #f4b942 - світлий бурштиновий акцент (посилання, кнопка)
+     #f7f4ee - фон сторінки (кремовий, як папір афіші)
+     #ffffff - фон карток
+     #ebe6dc - фон aside (трохи темніший за main)
+     #23212b - основний текст
+   ========================================================== */
+
+/* ---------- 1. Базовий reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #23212b;
+    background-color: #f7f4ee;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* ---------- 2. Header ---------- */
+header {
+    background-color: #1c1f26;
+    padding: 24px 32px;
+    border-bottom: 4px solid #f4b942;
+}
+
+header h1 {
+    margin: 0 0 12px;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+header nav a {
+    margin-right: 20px;
+    color: #f4b942;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+header nav a:hover,
+header nav a:focus {
+    text-decoration: underline;
+}
+
+/* ---------- 3. Main і section ---------- */
+main {
+    max-width: 960px;
+    margin: 0 auto;      /* центрування колонки */
+    padding: 0 24px;
+}
+
+main section {
+    margin: 32px 0;
+}
+
+h2 {
+    margin: 0 0 16px;
+    font-size: 1.5rem;
+}
+
+/* Форма фільтра */
+#filter form label {
+    margin-right: 8px;
+    font-weight: 600;
+}
+
+#filter form input,
+#filter form select {
+    margin-right: 20px;
+    padding: 6px 10px;
+    font: inherit;
+    border: 1px solid #b9b1a3;
+    border-radius: 4px;
+    background-color: #ffffff;
+}
+
+#filter form button {
+    padding: 8px 20px;
+    font: inherit;
+    font-weight: 600;
+    color: #1c1f26;
+    background-color: #f4b942;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#filter form button:hover {
+    background-color: #e0a52e;
+}
+
+/* ---------- 4. Картки подій (article) ---------- */
+.card {
+    padding: 16px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    border-left: 4px solid #8a8378; /* колір за замовчуванням */
+    border-radius: 0 6px 6px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.card img {
+    margin-bottom: 12px;
+    border-radius: 4px;
+}
+
+.card h3 {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+}
+
+.card p {
+    margin: 0 0 4px;
+}
+
+/* Модифікатори: колір смуги за категорією події
+   (концерт, вистава, виставка, фестиваль) */
+.card--concert    { border-left-color: #d9480f; }
+.card--theatre    { border-left-color: #a61e4d; }
+.card--exhibition { border-left-color: #0b7285; }
+.card--festival   { border-left-color: #5c940d; }
+
+/* ---------- 5. Aside «Деталі обраної події» ---------- */
+#selected-event {
+    /* ширина = ширина контентної колонки main (960 - 2 x 24px) */
+    width: calc(100% - 48px);
+    max-width: 912px;
+    margin: 0 auto 32px;
+    padding: 20px;
+    background-color: #ebe6dc;
+    border: 1px solid #c9bfae;
+    border-radius: 6px;
+}
+
+#selected-event h2 {
+    font-size: 1.25rem;
+}
+
+#selected-event p {
+    margin: 0;
+}
+
+/* ---------- 6. Footer ---------- */
+footer {
+    padding: 20px 32px;
+    font-size: 0.875rem;
+    color: #c4c0b8;
+    background-color: #1c1f26;
+    text-align: center;
+}
+
+footer address {
+    font-style: normal;
+}
+
+footer a {
+    color: #f4b942;
+}
+
+footer p {
+    margin: 4px 0 0;
+}
