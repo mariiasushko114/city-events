@@ -1,20 +1,55 @@
 /* =============================================================
    Стилі застосунку «Афіша подій міста» (варіант 5)
-   Практикум 4: адаптивна верстка (Flexbox, Grid, медіа-запити)
-   Підхід mobile-first:
+   Практикум 5: дизайн за чіткими та нечіткими критеріями
+   Адаптивність (практикум 4), підхід mobile-first:
      базові стилі      - мобільний (до 599px)
      @media ≥ 600px    - планшет
      @media ≥ 1024px   - десктоп
-   Палітра: контрастна - темний header, світлий «афішний» акцент
-     #1c1f26 - темний фон header і footer
-     #f4b942 - світлий бурштиновий акцент (посилання, кнопка)
-     #f7f4ee - фон сторінки (кремовий, як папір афіші)
-     #ffffff - фон карток
-     #ebe6dc - фон aside (трохи темніший за main)
-     #23212b - основний текст
    ========================================================== */
 
-/* ---------- 1. Базовий reset ---------- */
+/* ---------- 0. Дизайн-токени: палітра і типографічна шкала ---------- */
+:root {
+    /* Нейтральні (≈60 % площі) */
+    --color-bg:        #f7f4ee;  /* фон сторінки - кремовий, як папір афіші */
+    --color-surface:   #ffffff;  /* фон карток */
+    --color-aside:     #ebe6dc;  /* фон aside */
+    --color-text:      #23212b;  /* основний текст: 15.9:1 на білому, 14.5:1 на фоні */
+    --color-muted:     #5c5650;  /* другорядний текст: 7.2:1 на білому */
+    --color-border:    #b9b1a3;
+
+    /* Другорядний (≈30 %): темний «нічний» фон header і footer */
+    --color-dark:      #1c1f26;
+    --color-on-dark:   #f7f4ee;  /* 15.0:1 на --color-dark */
+
+    /* Акцент (≈10 %): святковий бурштиновий */
+    --color-accent:    #f4b942;  /* 9.3:1 на --color-dark */
+    --color-accent-hover: #e0a52e;
+
+    /* Кольори категорій (бейдж: білий текст ≥ 5:1) */
+    --cat-concert:     #c2410c;  /* 5.2:1 */
+    --cat-theatre:     #a61e4d;  /* 7.2:1 */
+    --cat-exhibition:  #0b7285;  /* 5.6:1 */
+    --cat-festival:    #4b7a0a;  /* 5.1:1 */
+
+    /* Дата події */
+    --color-date:      #8a3a0c;  /* 7.0:1 на --color-date-bg */
+    --color-date-bg:   #fff1d6;
+
+    /* Шрифти: пара «виразний заголовковий + нейтральний текстовий» */
+    --font-heading: "Montserrat", "Segoe UI", Arial, sans-serif;
+    --font-body:    "Open Sans", system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+
+    /* Типографічна шкала (чітка вимога: h1 ≥ 28px, h2 ≥ 20px, текст 16px) */
+    --fs-small: 0.875rem;  /* 14px - підвал, бейдж */
+    --fs-body:  1rem;      /* 16px - основний текст */
+    --fs-h3:    1.125rem;  /* 18px - назва події в картці */
+    --fs-date:  1.25rem;   /* 20px - дата події */
+    --fs-h2:    1.5rem;    /* 24px - заголовки розділів */
+    --fs-h1:    1.75rem;   /* 28px - назва сайту (мобільний) */
+    --fs-h1-lg: 2.25rem;   /* 36px - назва сайту (десктоп) */
+}
+
+/* ---------- 1. Базовий reset і текст ---------- */
 *,
 *::before,
 *::after {
@@ -23,11 +58,19 @@
 
 body {
     margin: 0;
-    font-family: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #23212b;
-    background-color: #f7f4ee;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.6;            /* рекомендований діапазон 1.4-1.6 */
+    color: var(--color-text);
+    background-color: var(--color-bg);
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.25;
 }
 
 /* Зображення не виходять за межі вузького контейнера */
@@ -39,20 +82,49 @@ img {
 
 /* ---------- 2. Header (Flexbox) ---------- */
 .site-header {
+    position: relative;          /* опора для «гірлянди» ::after */
     display: flex;
     flex-direction: column;      /* мобільний: h1 над nav */
     gap: 12px;
-    padding: 16px;
-    background-color: #1c1f26;
-    border-bottom: 4px solid #f4b942;
+    padding: 20px 16px 28px;
+    background-color: var(--color-dark);
 }
 
+/* НЕЧІТКА ВИМОГА «має передавати атмосферу свята».
+   Святковість передано двома прийомами лише в шапці: назва сайту
+   набрана жирним Montserrat 800 у теплому бурштиновому кольорі
+   (як вогні на вечірній афіші), а під шапкою висить «гірлянда»
+   з трикутних прапорців у кольорах категорій подій. Акцент
+   займає мало площі (правило 60-30-10) і стоїть на темному фоні
+   з контрастом 9.3:1, тому привертає увагу, але не заважає.
+   Основний текст сторінки лишається темним на світлому фоні
+   (15.9:1) і набраний спокійним Open Sans, тож читабельність
+   не страждає. */
 .site-header h1 {
     margin: 0;
-    font-size: 1.75rem;
-    font-weight: 700;
-    line-height: 1.2;
-    color: #ffffff;
+    font-size: var(--fs-h1);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--color-accent);
+}
+
+.site-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -12px;
+    height: 12px;
+    /* смуги кольорів категорій по 24px - кожна стає окремим прапорцем */
+    background: repeating-linear-gradient(90deg,
+        var(--color-accent)   0 24px,
+        var(--cat-concert)    24px 48px,
+        var(--cat-exhibition) 48px 72px,
+        var(--cat-theatre)    72px 96px,
+        var(--cat-festival)   96px 120px);
+    /* маска вирізає зі смуги трикутники вістрям донизу */
+    -webkit-mask: conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 0 / 24px 100%;
+    mask: conic-gradient(from 135deg at top, #000 90deg, #0000 0) 0 0 / 24px 100%;
 }
 
 /* Навігація: мобільний - стовпчик посилань */
@@ -63,28 +135,30 @@ img {
 }
 
 .site-header nav a {
-    color: #f4b942;
+    color: var(--color-on-dark);
     font-weight: 600;
     text-decoration: none;
+    border-bottom: 2px solid transparent;
+    align-self: flex-start;
 }
 
 .site-header nav a:hover,
 .site-header nav a:focus {
-    text-decoration: underline;
+    border-bottom-color: var(--color-accent);
 }
 
 /* ---------- 3. Макет сторінки: main + aside (Grid) ---------- */
 .layout {
     display: grid;
     grid-template-columns: 1fr;  /* мобільний: aside під main */
-    gap: 24px;
+    gap: 32px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 24px 16px;
+    padding: 36px 16px 32px;     /* зверху більше - місце під «гірлянду» */
 }
 
 main section {
-    margin-bottom: 32px;
+    margin-bottom: 40px;         /* секції розділені помітніше, ніж елементи всередині */
 }
 
 main section:last-child {
@@ -93,7 +167,7 @@ main section:last-child {
 
 h2 {
     margin: 0 0 16px;
-    font-size: 1.5rem;
+    font-size: var(--fs-h2);
 }
 
 /* Форма фільтра: мобільний - поля стовпчиком на всю ширину */
@@ -109,92 +183,135 @@ h2 {
 
 #filter form input,
 #filter form select {
-    padding: 6px 10px;
+    min-height: 44px;
+    padding: 8px 12px;
     font: inherit;
-    border: 1px solid #b9b1a3;
-    border-radius: 4px;
-    background-color: #ffffff;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-surface);
 }
 
 #filter form button {
+    min-height: 44px;
     margin-top: 8px;
-    padding: 8px 20px;
+    padding: 8px 24px;
     font: inherit;
-    font-weight: 600;
-    color: #1c1f26;
-    background-color: #f4b942;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-dark);    /* 9.3:1 на бурштиновому */
+    background-color: var(--color-accent);
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
 }
 
-#filter form button:hover {
-    background-color: #e0a52e;
+#filter form button:hover,
+#filter form button:focus {
+    background-color: var(--color-accent-hover);
 }
 
 /* ---------- 4. Сітка карток подій (Grid) ---------- */
 .cards {
     display: grid;
     grid-template-columns: 1fr;  /* мобільний: 1 колонка */
-    gap: 16px;                   /* відступ між картками замість margin-bottom */
+    gap: 20px;
 }
 
 .card {
     display: flex;               /* вміст картки - стовпчиком */
     flex-direction: column;
-    padding: 16px;
-    background-color: #ffffff;
-    border-left: 4px solid #8a8378; /* колір за замовчуванням */
-    border-radius: 0 6px 6px 0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    background-color: var(--color-surface);
+    border-top: 4px solid var(--color-muted); /* колір за замовчуванням */
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(28, 31, 38, 0.10);
 }
 
 .card img {
     width: 100%;
-    margin-bottom: 12px;
-    border-radius: 4px;
+    margin-bottom: 16px;
+    border-radius: 6px;
+}
+
+/* Близькість: бейдж, назва і дата - одна група з малими відступами,
+   опис відділений більшим відступом */
+.card__badge {
+    margin: 0 0 8px;
 }
 
 .card h3 {
     margin: 0 0 8px;
-    font-size: 1.25rem;
-    line-height: 1.3;
+    font-size: var(--fs-h3);
 }
 
-.card p {
-    margin: 0 0 4px;
+.card__date {
+    align-self: flex-start;      /* плашка за шириною тексту */
+    margin: 0 0 12px;
+    padding: 2px 10px;
+    font-family: var(--font-heading);
+    font-size: var(--fs-date);
+    font-weight: 800;
+    line-height: 1.4;
+    color: var(--color-date);
+    background-color: var(--color-date-bg);
+    border-radius: 6px;
 }
 
-/* Модифікатори: колір смуги за категорією події
-   (концерт, вистава, виставка, фестиваль) */
-.card--concert    { border-left-color: #d9480f; }
-.card--theatre    { border-left-color: #a61e4d; }
-.card--exhibition { border-left-color: #0b7285; }
-.card--festival   { border-left-color: #5c940d; }
+.card p:last-child {
+    margin: 0;
+    color: var(--color-muted);
+}
+
+/* Кольоровий бейдж категорії */
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
+    font-size: var(--fs-small);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: var(--color-muted);
+    border-radius: 999px;
+}
+
+.badge--concert    { background-color: var(--cat-concert); }
+.badge--theatre    { background-color: var(--cat-theatre); }
+.badge--exhibition { background-color: var(--cat-exhibition); }
+.badge--festival   { background-color: var(--cat-festival); }
+
+/* Верхня смуга картки - того ж кольору, що й бейдж категорії */
+.card--concert    { border-top-color: var(--cat-concert); }
+.card--theatre    { border-top-color: var(--cat-theatre); }
+.card--exhibition { border-top-color: var(--cat-exhibition); }
+.card--festival   { border-top-color: var(--cat-festival); }
 
 /* ---------- 5. Aside «Деталі обраної події» ---------- */
 #selected-event {
     align-self: start;           /* висота за вмістом, а не на весь рядок сітки */
-    padding: 20px;
-    background-color: #ebe6dc;
-    border: 1px solid #c9bfae;
-    border-radius: 6px;
+    padding: 24px;
+    background-color: var(--color-aside);
+    border-left: 4px solid var(--color-accent);
+    border-radius: 8px;
 }
 
 #selected-event h2 {
-    font-size: 1.25rem;
+    font-size: 1.25rem;          /* 20px - мінімум для h2 за варіантом */
 }
 
 #selected-event p {
+    max-width: 65ch;             /* рядок до ~65 символів */
     margin: 0;
 }
 
 /* ---------- 6. Footer ---------- */
 footer {
-    padding: 20px 16px;
-    font-size: 0.875rem;
-    color: #c4c0b8;
-    background-color: #1c1f26;
+    padding: 24px 16px;
+    font-size: var(--fs-small);
+    color: #c4c0b8;              /* 9.1:1 на --color-dark */
+    background-color: var(--color-dark);
     text-align: center;
 }
 
@@ -203,7 +320,7 @@ footer address {
 }
 
 footer a {
-    color: #f4b942;
+    color: var(--color-accent);
 }
 
 footer p {
@@ -213,18 +330,18 @@ footer p {
 /* ---------- 7. Планшет (≥ 600px) ---------- */
 @media (min-width: 600px) {
     .site-header {
-        padding: 20px 24px;
+        padding: 24px 24px 32px;
     }
 
     /* навігація - горизонтальний ряд */
     .site-header nav {
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 20px;
+        gap: 24px;
     }
 
     .layout {
-        padding: 32px 24px;
+        padding: 44px 24px 40px;
     }
 
     /* форма фільтра - в рядок з переносом */
@@ -252,27 +369,23 @@ footer p {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 24px 32px;
+        padding: 28px 32px 36px;
     }
 
     .site-header h1 {
-        font-size: 2.25rem;
+        font-size: var(--fs-h1-lg);
     }
 
     /* main і aside поруч у пропорції 2:1 */
     .layout {
         grid-template-columns: 2fr 1fr;
         gap: 32px;
-        padding: 40px 32px;
+        padding: 52px 32px 48px;
     }
 
     /* картки - 3 колонки */
     .cards {
         grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-    }
-
-    .card h3 {
-        font-size: 1.125rem;
+        gap: 24px;
     }
 }
