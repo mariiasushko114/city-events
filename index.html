@@ -48,9 +48,12 @@
             <!-- Список подій: кожна подія - самодостатня одиниця вмісту, тому article -->
             <section id="events">
                 <h2>Події</h2>
+                <!-- Підсумок: текст оновлює скрипт (практикум 7) -->
+                <p id="events-count">Завантаження подій…</p>
 
-                <!-- Контейнер-сітка карток подій -->
-                <div class="cards">
+                <!-- Контейнер-сітка карток подій: картки генерує скрипт з масиву events.
+                     Статичні картки нижче - орієнтир структури, скрипт видаляє їх при завантаженні -->
+                <div class="cards" id="events-list">
                     <article class="card card--concert">
                         <img src="assets/img/concert.svg" alt="Ілюстрація до концерту: музичні ноти" width="320" height="180">
                         <p class="card__badge"><span class="badge badge--concert">Концерт</span></p>

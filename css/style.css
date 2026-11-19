@@ -288,6 +288,13 @@ h2 {
 .card--exhibition { border-top-color: var(--cat-exhibition); }
 .card--festival   { border-top-color: var(--cat-festival); }
 
+/* Лічильник подій над сіткою (оновлює скрипт) */
+#events-count {
+    margin: -8px 0 16px;
+    color: var(--color-muted);
+    font-weight: 600;
+}
+
 /* ---------- 5. Aside «Деталі обраної події» ---------- */
 #selected-event {
     align-self: start;           /* висота за вмістом, а не на весь рядок сітки */
